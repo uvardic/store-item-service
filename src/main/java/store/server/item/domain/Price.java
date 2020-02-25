@@ -30,6 +30,21 @@ public class Price implements Serializable, Comparable<Price> {
     @Positive
     private Integer discount;
 
+    private transient Double discountedValue;
+
+    private transient boolean onSale;
+
+    public boolean isOnSale() {
+        return discount != null && discount != 0;
+    }
+
+    public Double getDiscountedValue() {
+        if (discount == null)
+            return null;
+
+        return ((100 - discount) * value) / 100;
+    }
+
     @Override
     public int compareTo(Price other) {
         return this.createMonetaryAmount().compareTo(other.createMonetaryAmount());
