@@ -1,8 +1,7 @@
 package store.server.item.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.SneakyThrows;
 import org.hibernate.validator.constraints.Length;
 import store.server.category.domain.Category;
 
@@ -11,7 +10,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,27 +38,11 @@ public class Item implements Serializable {
 
     @Column(updatable = false)
     @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date postDate;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<@NotNull Category> categories = new HashSet<>();
-
-    @JsonIgnore
-    public static transient final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-    public String getPostDate() {
-        return dateFormat.format(postDate);
-    }
-
-    @SneakyThrows
-    public void setPostDate(String postDate) {
-        this.postDate = dateFormat.parse(postDate);
-    }
-
-    @JsonIgnore
-    public Date getUnformattedPostDate() {
-        return postDate;
-    }
 
     public void initializePostDate() {
         this.postDate = new Date();

@@ -1,6 +1,7 @@
 package store.server.item.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import store.server.category.domain.Category;
 import store.server.category.repository.CategoryRepository;
@@ -12,6 +13,7 @@ import store.server.item.repository.ItemRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ItemService {
